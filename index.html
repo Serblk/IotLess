@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аппаратно-программные комплексы Интернета вещей</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="64x64" href="icons8-website-64.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" data-nav="home">IoT Курс</a>
+    <button class="hamburger" id="hamburger" aria-label="Меню"><span></span><span></span><span></span></button>
+    <div class="nav-center" id="navCenter">
+      <a href="#" data-nav="lectures">Лекции</a>
+      <a href="#" data-nav="labs">Лабораторные</a>
+      <a href="#" data-nav="test" id="nav-test">Самопроверка</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-progress">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <span id="progressText">0%</span>
+      </div>
+      <button id="themeToggle" aria-label="Переключить тему">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+<section id="sec-home" class="section active">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Курс 2026</div>
+      <h1>Аппаратно-программные комплексы<br>Интернета вещей</h1>
+      <p class="hero-desc">Интерактивная платформа для изучения архитектуры IoT, протоколов связи, микроконтроллеров и облачных платформ. Структурированные лекции, практические лабораторные и итоговый тест.</p>
+      <button class="btn btn-primary btn-lg pulse" id="startBtn">Начать обучение →</button>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" data-count="7">0</span><span class="stat-label">Лекций</span></div>
+        <div class="stat"><span class="stat-num" data-count="8">0</span><span class="stat-label">Лабораторных</span></div>
+        <div class="stat"><span class="stat-num" data-count="30">0</span><span class="stat-label">Вопросов</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sec-lectures" class="section">
+  <div class="sec-header">
+    <h2>Лекции</h2>
+    <p>Изучите теоретический материал курса</p>
+  </div>
+  <div class="card-grid" id="lecturesGrid"></div>
+</section>
+
+<section id="sec-labs" class="section">
+  <div class="sec-header">
+    <h2>Лабораторные работы</h2>
+    <p>Закрепите знания на практике</p>
+  </div>
+  <div class="card-grid" id="labsGrid"></div>
+</section>
+
+<section id="sec-viewer" class="section">
+  <div class="viewer-top">
+    <button class="btn btn-sm" id="viewerBack">← Назад</button>
+    <h3 id="viewerTitle"></h3>
+    <div class="viewer-actions">
+      <span class="breadcrumb" id="viewerBreadcrumb"></span>
+      <button class="btn btn-sm" id="viewerOpen" title="Открыть в новой вкладке">↗</button>
+    </div>
+  </div>
+  <div class="viewer-controls">
+    <button class="btn btn-sm" id="viewerPrev">←</button>
+    <span id="viewerPosition" class="viewer-pos"></span>
+    <button class="btn btn-sm" id="viewerNext">→</button>
+  </div>
+  <div class="viewer-body">
+    <aside class="viewer-sidebar viewer-sidebar-left" id="sidebarLectures">
+      <div class="sidebar-header"><span>Лекции</span><button class="sidebar-toggle" data-sidebar="sidebarLectures" aria-label="Свернуть">◀</button></div>
+      <div class="sidebar-list" id="sidebarLectureList"></div>
+    </aside>
+    <div class="viewer-container" id="viewerContainer">
+    <div class="viewer-loading" id="viewerLoading">
+      <div class="spinner"></div>
+      <span>Загрузка PDF…</span>
+    </div>
+    <div class="viewer-pages" id="viewerPages"></div>
+  </div>
+    <aside class="viewer-sidebar viewer-sidebar-right" id="sidebarLabs">
+      <div class="sidebar-header"><span>Лабораторные</span><button class="sidebar-toggle" data-sidebar="sidebarLabs" aria-label="Свернуть">◀</button></div>
+      <div class="sidebar-list" id="sidebarLabList"></div>
+    </aside>
+  </div>
+</section>
+
+<section id="sec-test" class="section">
+  <div id="testLocked">
+    <div class="lock-icon">🔒</div>
+    <h2>Самопроверка</h2>
+    <p>Пройдите все лекции и лабораторные работы, чтобы разблокировать итоговый тест.</p>
+    <div class="test-lock-progress">
+      <div class="progress-track lg"><div class="progress-fill" id="lockProgressFill"></div></div>
+      <span id="lockProgressText">0%</span>
+    </div>
+  </div>
+  <div id="testReady" style="display:none">
+    <div class="test-start">
+      <div class="test-start-icon"></div>
+      <h2>Итоговый тест</h2>
+      <p>30 вопросов · 45 минут · выбор, сопоставление, порядок, ввод ответа</p>
+      <button class="btn btn-primary btn-lg" id="testStartBtn">Начать тест →</button>
+    </div>
+  </div>
+  <div id="testActive" style="display:none">
+    <div class="test-topbar">
+      <div class="test-timer-wrap">
+        <svg class="timer-ring" viewBox="0 0 60 60"><circle class="timer-bg" cx="30" cy="30" r="26"/><circle class="timer-fg" id="timerFg" cx="30" cy="30" r="26"/></svg>
+        <span class="test-timer" id="testTimer">45:00</span>
+      </div>
+      <div class="test-mid">
+        <div class="test-progress-bar"><div class="test-progress-fill" id="testProgressFill"></div></div>
+        <span class="test-progress-text" id="testProgressText">Вопрос 1 из 30</span>
+      </div>
+      <button class="btn btn-sm btn-danger" id="testSubmitBtn">Завершить</button>
+    </div>
+    <div class="test-type" id="testType"></div>
+    <div class="test-question" id="testQuestion"></div>
+    <div id="testOptions" class="test-options"></div>
+    <div id="testMatching" class="test-matching" style="display:none">
+      <div class="matching-cols">
+        <div class="matching-left" id="matchingLeft"></div>
+        <div class="matching-right" id="matchingRight"></div>
+      </div>
+      <div class="matching-pairs" id="matchingPairs"></div>
+    </div>
+    <div id="testOrdering" class="test-ordering" style="display:none">
+      <p class="ordering-hint">Перетащите элементы в правильный порядок</p>
+      <div class="ordering-list" id="orderingList"></div>
+    </div>
+    <div id="testShort" class="test-short" style="display:none">
+      <textarea id="shortInput" class="short-input" placeholder="Введите ответ..." rows="3"></textarea>
+    </div>
+    <div class="test-extra" id="testExtra"></div>
+    <div class="test-nav">
+      <button class="btn" id="testPrevBtn">← Назад</button>
+      <div class="test-dots" id="testDots"></div>
+      <button class="btn btn-primary" id="testNextBtn">Далее →</button>
+    </div>
+  </div>
+  <div id="testResults" style="display:none">
+    <h2>Результаты теста</h2>
+    <div class="results-grid">
+      <div class="result-card correct"><div class="result-num" id="resultCorrect">0</div><div class="result-label">Правильно</div></div>
+      <div class="result-card wrong"><div class="result-num" id="resultWrong">0</div><div class="result-label">Неправильно</div></div>
+      <div class="result-card"><div class="result-num" id="resultPercent">0%</div><div class="result-label">Успешность</div></div>
+      <div class="result-card"><div class="result-num" id="resultTime">0:00</div><div class="result-label">Время</div></div>
+    </div>
+    <div class="result-score" id="resultScore">Оценка: 0 / 30</div>
+    <button class="btn btn-sm" id="testReviewToggle" style="margin-bottom:16px">Показать разбор ответов ▽</button>
+    <div id="testReview" style="display:none">
+      <h3 style="margin-bottom:16px">Разбор ответов</h3>
+      <div id="reviewList"></div>
+    </div>
+    <button class="btn btn-primary" id="testRetryBtn">Пройти заново</button>
+  </div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
